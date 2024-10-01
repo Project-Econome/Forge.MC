@@ -38,12 +38,19 @@ export default new NativeFunction({
         try {
             const result: Result = await mcs.statusJava(host, port, options);
             
-            // Test the result object
-            expect(typeof result.icon === 'string' || result.icon === null).toBe(true);
-            
-            if (typeof result.icon === 'string') {
-                expect(result.icon.length).toBeGreaterThan(0);
-                expect(result.icon.startsWith('data:image/png;base64,')).toBe(true);
+            // Perform manual checks instead of using expect
+            if (typeof result.icon === 'string' || result.icon === null) {
+                if (typeof result.icon === 'string') {
+                    if (result.icon.length > 0 && result.icon.startsWith('data:image/png;base64,')) {
+                        console.log("Icon is valid");
+                    } else {
+                        console.log("Icon format is incorrect");
+                    }
+                } else {
+                    console.log("No icon available (null)");
+                }
+            } else {
+                console.log("Invalid icon type");
             }
             
             return this.success();
