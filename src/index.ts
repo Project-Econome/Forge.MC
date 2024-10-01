@@ -3,7 +3,7 @@ import { ForgeExtension } from '@tryforge/forgescript';
 
 export class ForgeMC extends ForgeExtension {
     name = 'Forge.MC';
-    description = 'A forgescript extension that allows you to create and edit images with ease.';
+    description = 'A forgescript extension that allows you to view Minecraft Server Statistics';
     version = '1.0.0';
 
     public init () {
