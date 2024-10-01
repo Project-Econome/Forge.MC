@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const forgescript_1 = require("@tryforge/forgescript");
-const globals_1 = require("@jest/globals");
 const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
     name: '$getIcon',
@@ -36,10 +35,10 @@ exports.default = new forgescript_1.NativeFunction({
         try {
             const result = await mcs.statusJava(host, port, options);
             // Test the result object
-            (0, globals_1.expect)(typeof result.icon === 'string' || result.icon === null).toBe(true);
+            expect(typeof result.icon === 'string' || result.icon === null).toBe(true);
             if (typeof result.icon === 'string') {
-                (0, globals_1.expect)(result.icon.length).toBeGreaterThan(0);
-                (0, globals_1.expect)(result.icon.startsWith('data:image/png;base64,')).toBe(true);
+                expect(result.icon.length).toBeGreaterThan(0);
+                expect(result.icon.startsWith('data:image/png;base64,')).toBe(true);
             }
             return this.success();
         }

@@ -1,5 +1,4 @@
 import { ArgType, NativeFunction } from "@tryforge/forgescript";
-import { expect } from '@jest/globals';
 const mcs = require('node-mcstatus');
 
 interface Result {
