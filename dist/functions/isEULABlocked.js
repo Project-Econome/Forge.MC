@@ -4,7 +4,7 @@ const forgescript_1 = require("@tryforge/forgescript");
 const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
     name: '$isEulaBlocked',
-    description: 'Check if the Minecraft server is blocked by mojang',
+    description: 'Check if the Minecraft server is EULA blocked',
     version: '1.0.1',
     brackets: true,
     unwrap: true,
@@ -34,21 +34,21 @@ exports.default = new forgescript_1.NativeFunction({
     async execute(ctx, [host, port, options]) {
         try {
             const result = await mcs.statusJava(host, port, options);
-            // Check if the server is online
-            const isBlocked = result.eula_blocked;
-            // Validate and log the online status
-            if (typeof isBlocked === 'boolean') {
-                console.log(`The server is ${isBlocked ? 'Blocked' : 'Not Blocked'}.`);
+            // Check if the server is EULA blocked
+            const isEulaBlocked = result.eula_blocked;
+            // Validate and log the EULA blocked status
+            if (typeof isEulaBlocked === 'boolean') {
+                console.log(`The server is ${isEulaBlocked ? 'Blocked' : 'Not Blocked'}.`);
             }
             else {
-                console.log("Eula status is invalid.");
+                console.log("EULA blocked status is invalid.");
             }
-            // Return the online status in the success response
-            return this.success(isBlocked);
+            // Return the EULA blocked status in the success response
+            return this.success(isEulaBlocked);
         }
         catch (error) {
-            console.error("Error checking server Eula status:", error);
-            return this.customError("Failed to check server Eula status");
+            console.error("Error checking EULA blocked status:", error);
+            return this.customError("Failed to check EULA blocked status");
         }
     }
 });
