@@ -1,4 +1,5 @@
 import { ArgType, NativeFunction } from "@tryforge/forgescript";
+import { AttachmentBuilder } from 'discord.js'; 
 const mcs = require('node-mcstatus');
 
 interface Result {
@@ -42,9 +43,11 @@ export default new NativeFunction({
             if (typeof result.icon === 'string' || result.icon === null) {
                 if (typeof result.icon === 'string') {
                     if (result.icon.length > 0 && result.icon.startsWith('data:image/png;base64,')) {
-                        console.log("Icon is valid");
-                    } else {
-                        console.log("Icon format is incorrect");
+ctx.container.files.push(new AttachmentBuilder(Buffer.from(result.icon.slice('data:image/png;base64,'.length), 'base64'), {
+            name: 'icon.png'
+        }));
+ } else {
+console.log("Icon format is incorrect");
                     }
                 } else {
                     console.log("No icon available (null)");

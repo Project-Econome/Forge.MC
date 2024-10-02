@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const forgescript_1 = require("@tryforge/forgescript");
+const discord_js_1 = require("discord.js");
 const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
     name: '$getIcon',
@@ -38,7 +39,9 @@ exports.default = new forgescript_1.NativeFunction({
             if (typeof result.icon === 'string' || result.icon === null) {
                 if (typeof result.icon === 'string') {
                     if (result.icon.length > 0 && result.icon.startsWith('data:image/png;base64,')) {
-                        console.log("Icon is valid");
+                        ctx.container.files.push(new discord_js_1.AttachmentBuilder(Buffer.from(result.icon.slice('data:image/png;base64,'.length), 'base64'), {
+                            name: 'icon.png'
+                        }));
                     }
                     else {
                         console.log("Icon format is incorrect");
