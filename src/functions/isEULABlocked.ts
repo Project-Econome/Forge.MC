@@ -8,7 +8,7 @@ interface EulaResult {
 export default new NativeFunction({
     name: '$isEulaBlocked',
     description: 'Check if the Minecraft server is EULA blocked',
-    version: '1.0.0',
+    version: '1.1.0',
     brackets: true,
     unwrap: true,
     args: [

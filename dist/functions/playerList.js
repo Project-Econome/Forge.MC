@@ -5,7 +5,7 @@ const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
     name: '$listPlayersOnline',
     description: 'List all online players on a Minecraft server (clean format)',
-    version: '1.0.0',
+    version: '1.1.0',
     brackets: true,
     unwrap: true,
     args: [
