@@ -44,7 +44,7 @@ exports.default = new forgescript_1.NativeFunction({
                 console.log("Player count is incorrect or invalid.");
             }
             // Return the player count in the success response
-            return this.success({ onlinePlayers: playerCount });
+            return this.success();
         }
         catch (error) {
             console.error("Error fetching player count:", error);
