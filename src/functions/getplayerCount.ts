@@ -51,7 +51,7 @@ export default new NativeFunction({
             }
 
             // Return the player count in the success response
-            return this.successJSON({ onlinePlayers: playerCount });
+            return this.success('${playerCount}');
         } catch (error) {
             console.error("Error fetching player count:", error);
             return this.customError("Failed to fetch player count");
