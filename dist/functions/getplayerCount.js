@@ -34,19 +34,17 @@ exports.default = new forgescript_1.NativeFunction({
     async execute(ctx, [host, port, options]) {
         try {
             const result = await mcs.statusJava(host, port, options);
-            // Perform manual checks on the players object
-            if (typeof result.players === 'object' && typeof result.players.online === 'number') {
-                if (result.players.online >= 0 && Number.isInteger(result.players.online)) {
-                    console.log(`There are currently ${result.players.online} players online.`);
-                }
-                else {
-                    console.log("Player count is incorrect or invalid.");
-                }
+            // Extract and log the player count
+            const playerCount = result.players.online;
+            // Validate and print the number of players online
+            if (typeof playerCount === 'number' && playerCount >= 0 && Number.isInteger(playerCount)) {
+                console.log(`There are currently ${playerCount} players online.`);
             }
             else {
-                console.log("Invalid player data structure.");
+                console.log("Player count is incorrect or invalid.");
             }
-            return this.success({ onlinePlayers: result.players.online });
+            // Return the player count in the success response
+            return this.success({ onlinePlayers: playerCount });
         }
         catch (error) {
             console.error("Error fetching player count:", error);
