@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const forgescript_1 = require("@tryforge/forgescript");
 const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
-    name: '$getPlayerCount',
-    description: 'Get the number of online players on a Minecraft server',
+    name: '$getMaxPlayers',
+    description: 'Get the maximum number of players allowed on a Minecraft server',
     version: '1.0.0',
     brackets: true,
     unwrap: true,
@@ -34,22 +34,22 @@ exports.default = new forgescript_1.NativeFunction({
     async execute(ctx, [host, port, options]) {
         try {
             const result = await mcs.statusJava(host, port, options);
-            // Extract and log the player count
-            const playerCount = result.players.online;
-            // Validate and print the number of players online
-            if (typeof playerCount === 'number' && playerCount >= 0 && Number.isInteger(playerCount)) {
-                console.log(`There are currently ${playerCount} players online.`);
+            // Extract and log the max player count
+            const maxPlayers = result.players.max;
+            // Validate and print the maximum number of players allowed
+            if (typeof maxPlayers === 'number' && maxPlayers >= 0 && Number.isInteger(maxPlayers)) {
+                console.log(`The maximum number of players allowed is ${maxPlayers}.`);
             }
             else {
-                console.log("Player count is incorrect or invalid.");
+                console.log("Maximum player count is incorrect or invalid.");
             }
-            // Return the player count in the success response
-            return this.success(playerCount);
+            // Return the maximum player count in the success response
+            return this.success(maxPlayers);
         }
         catch (error) {
-            console.error("Error fetching player count:", error);
-            return this.customError("Failed to fetch player count");
+            console.error("Error fetching maximum player count:", error);
+            return this.customError("Failed to fetch maximum player count");
         }
     }
 });
-//# sourceMappingURL=getplayerCount.js.map
+//# sourceMappingURL=getMaxPlayers.js.map
