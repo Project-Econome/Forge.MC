@@ -19,4 +19,4 @@ declare const _default: NativeFunction<[{
     rest: false;
 }], true>;
 export default _default;
-//# sourceMappingURL=getIcon.d.ts.map
+//# sourceMappingURL=getplayerCount.d.ts.map

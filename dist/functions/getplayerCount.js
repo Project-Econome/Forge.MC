@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const forgescript_1 = require("@tryforge/forgescript");
-const discord_js_1 = require("discord.js");
 const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
-    name: '$getIcon',
-    description: 'Get Java Icon URL',
+    name: '$getPlayCount',
+    description: 'Get the number of online players on a Minecraft server',
     version: '1.0.0',
     brackets: true,
     unwrap: true,
@@ -35,31 +34,24 @@ exports.default = new forgescript_1.NativeFunction({
     async execute(ctx, [host, port, options]) {
         try {
             const result = await mcs.statusJava(host, port, options);
-            // Perform manual checks instead of using expect
-            if (typeof result.icon === 'string' || result.icon === null) {
-                if (typeof result.icon === 'string') {
-                    if (result.icon.length > 0 && result.icon.startsWith('data:image/png;base64,')) {
-                        ctx.container.files.push(new discord_js_1.AttachmentBuilder(Buffer.from(result.icon.slice('data:image/png;base64,'.length), 'base64'), {
-                            name: 'icon.png'
-                        }));
-                    }
-                    else {
-                        console.log("Icon format is incorrect");
-                    }
+            // Perform manual checks on the players object
+            if (typeof result.players === 'object' && typeof result.players.online === 'number') {
+                if (result.players.online >= 0 && Number.isInteger(result.players.online)) {
+                    console.log(`There are currently ${result.players.online} players online.`);
                 }
                 else {
-                    console.log("No icon available (null)");
+                    console.log("Player count is incorrect or invalid.");
                 }
             }
             else {
-                console.log("Invalid icon type");
+                console.log("Invalid player data structure.");
             }
-            return this.success();
+            return this.success({ onlinePlayers: result.players.online });
         }
         catch (error) {
-            console.error("Error fetching status:", error);
-            return this.customError("Failed to fetch status");
+            console.error("Error fetching player count:", error);
+            return this.customError("Failed to fetch player count");
         }
     }
 });
-//# sourceMappingURL=getIcon.js.map
+//# sourceMappingURL=getplayerCount.js.map

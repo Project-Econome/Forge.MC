@@ -17,7 +17,7 @@ export default new NativeFunction({
             name: 'host',
             description: 'Host Domain',
             type: ArgType.String,
-            required: false,
+            required: true,
             rest: false
         },
         {
