@@ -5,7 +5,7 @@ const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
     name: '$getVersion',
     description: 'Get the Minecraft server version in clean or raw format, along with protocol number',
-    version: '1.0.0',
+    version: '1.1.5',
     brackets: true,
     unwrap: true,
     args: [
