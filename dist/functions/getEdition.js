@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const forgescript_1 = require("@tryforge/forgescript");
 const mcs = require('node-mcstatus');
 exports.default = new forgescript_1.NativeFunction({
-    name: '$getEdition',
-    description: 'Get the Edition from a Minecraft server in clean or raw format',
-    version: '1.1.5',
+    name: '$getVersion',
+    description: 'Get the Minecraft server version in clean or raw format, along with protocol number',
+    version: '1.0.0',
     brackets: true,
     unwrap: true,
     args: [
@@ -32,7 +32,7 @@ exports.default = new forgescript_1.NativeFunction({
         },
         {
             name: 'format',
-            description: 'Choose between "clean" or "raw" format',
+            description: 'Choose between "clean" or "raw" version format',
             type: forgescript_1.ArgType.String,
             required: true,
             rest: false
@@ -41,32 +41,41 @@ exports.default = new forgescript_1.NativeFunction({
     async execute(ctx, [host, port, options, format]) {
         try {
             const result = await mcs.statusJava(host, port, options);
-            // Validate and extract the MOTD based on the format argument
-            if (typeof result.version === 'object') {
+            if (result.version !== null) {
                 let versionOutput;
-                if (format === 'clean' && typeof result.version.clean === 'string' && result.version.clean.length > 0) {
-                    versionOutput = result.version.clean;
+                // Validate and output the version based on the format argument
+                if (format === 'clean' && typeof result.version.name_clean === 'string' && result.version.name_clean.length > 0) {
+                    versionOutput = result.version.name_clean;
                     console.log(`Version (clean): ${versionOutput}`);
                 }
-                else if (format === 'raw' && typeof result.version.raw === 'string' && result.version.raw.length > 0) {
-                    versionOutput = result.version.raw;
+                else if (format === 'raw' && typeof result.version.name_raw === 'string' && result.version.name_raw.length > 0) {
+                    versionOutput = result.version.name_raw;
                     console.log(`Version (raw): ${versionOutput}`);
                 }
                 else {
-                    console.log("Invalid MOTD format or not available.");
-                    return this.customError("Invalid or unavailable Version format");
+                    console.log("Invalid version format or not available.");
+                    return this.customError("Invalid or unavailable version format");
                 }
-                // Return the MOTD in the requested format as JSON
-                return this.success(JSON.stringify({ version: versionOutput }, null, 2));
+                // Validate the protocol
+                const protocol = result.version.protocol;
+                if (typeof protocol === 'number' && Number.isInteger(protocol)) {
+                    console.log(`Protocol: ${protocol}`);
+                }
+                else {
+                    console.log("Protocol is invalid or missing.");
+                    return this.customError("Invalid protocol");
+                }
+                // Return the version and protocol as JSON
+                return this.success(JSON.stringify({ version: versionOutput, protocol: protocol }, null, 2));
             }
             else {
-                console.log("Version object is invalid or missing.");
+                console.log("Version object is null.");
                 return this.customError("Version not found");
             }
         }
         catch (error) {
-            console.error("Error fetching Version:", error);
-            return this.customError("Failed to fetch Version");
+            console.error("Error fetching version:", error);
+            return this.customError("Failed to fetch version");
         }
     }
 });
