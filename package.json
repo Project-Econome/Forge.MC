@@ -1,7 +1,7 @@
 {
-  "name": "@tryforge/forge.mc",
+  "name": "@econome/forge.mc",
   "version": "1.1.5",
-  "description": "",
+  "description": "A Extension That Uses Minecraft Server Checking Software",
   "main": "dist/index.js",
   "devDependencies": {
     "@tryforge/forgescript": "^1.4.0",
@@ -17,7 +17,7 @@
     "test": "tsc && node dist/__tests__/"
   },
   "keywords": [],
-  "author": "",
+  "author": "Project-Econome",
   "license": "ISC",
   "dependencies": {
     "node-mcstatus": "^1.2.1"
@@ -26,5 +26,17 @@
     "types": [
       "jest"
     ]
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Project-Econome/Forge.MC.git"
+  },
+  "types": "./dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/Project-Econome/Forge.MC/issues"
+  },
+  "homepage": "https://github.com/Project-Econome/Forge.MC#readme"
 }
